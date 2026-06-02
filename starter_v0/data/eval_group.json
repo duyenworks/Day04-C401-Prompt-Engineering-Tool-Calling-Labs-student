@@ -2,6 +2,124 @@
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
   "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
-  "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
-  "cases": []
+  "allowed_failure_types": [
+    "wrong_tool",
+    "wrong_arg_value",
+    "wrong_boundary",
+    "unnecessary_tool",
+    "out_of_scope",
+    "missing_info"
+  ],
+  "cases": [
+    {
+      "id": "G01_ST_trending_vietnam",
+      "phase": "B",
+      "suite": "group",
+      "query": "Hôm nay trên X ở Việt Nam đang trending những chủ đề gì?",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "trending", "args": {"country": "Vietnam"}}]},
+      "metadata": {"what_it_tests": "Câu hỏi trending theo quốc gia → trending, không dùng social_search hay lookup."}
+    },
+    {
+      "id": "G02_ST_profile_karpathy",
+      "phase": "B",
+      "suite": "group",
+      "query": "Xem thông tin profile Twitter của Andrej Karpathy (handle karpathy).",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "profile", "args": {"screenname": "karpathy"}}]},
+      "metadata": {"what_it_tests": "Yêu cầu profile công khai → profile, không timeline hay social_search."}
+    },
+    {
+      "id": "G03_ST_news_month_openai",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tin OpenAI tháng này có gì nổi bật?",
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI", "topic": "news", "timeframe": "month"}}]},
+      "metadata": {"what_it_tests": "'tháng này' + tin tức → lookup topic=news, timeframe=month."}
+    },
+    {
+      "id": "G04_ST_papers_rag_eval",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tìm trên arXiv paper về retrieval augmented generation evaluation.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "papers", "args": {"query": "retrieval augmented generation evaluation"}}]},
+      "metadata": {"what_it_tests": "Tìm paper khoa học → papers, không lookup web."}
+    },
+    {
+      "id": "G05_ST_fetch_url",
+      "phase": "B",
+      "suite": "group",
+      "query": "Đọc và tóm tắt nội dung bài này: https://arxiv.org/abs/1706.03762",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://arxiv.org/abs/1706.03762"}}]},
+      "metadata": {"what_it_tests": "Đã có URL cụ thể → fetch, không papers hay lookup."}
+    },
+    {
+      "id": "G06_MT_parallel_then_narrow_web",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tìm cả tin web và tweet về AI hôm nay"},
+        {"role": "user", "content": "Chỉ giữ phần web thôi"},
+        {"role": "user", "content": "Vẫn là AI hôm nay nhé"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}}]},
+      "metadata": {"what_it_tests": "Ban đầu song song web+tweet, sau khi thu hẹp chỉ lookup; bỏ social_search."}
+    },
+    {
+      "id": "G07_MT_clarify_handle_timeline",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Lấy 5 tweet mới nhất giúp mình"},
+        {"role": "user", "content": "Của Sam Altman"},
+        {"role": "user", "content": "Giữ đúng 5 tweet, đừng đổi số lượng"}
+      ],
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "sama", "limit": 5}}]},
+      "metadata": {"what_it_tests": "Carry limit=5, map Sam Altman → sama; chỉ xử lý latest turn."}
+    },
+    {
+      "id": "G08_MT_carry_timeframe_week",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tin công nghệ trong tuần này"},
+        {"role": "user", "content": "Còn về robotics thì sao?"},
+        {"role": "user", "content": "Chỉ tìm robotics thôi, vẫn là tin tuần này"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "robotics", "topic": "news", "timeframe": "week"}}]},
+      "metadata": {"what_it_tests": "Carry topic=news và timeframe=week, query đổi sang robotics."}
+    },
+    {
+      "id": "G09_MT_confirm_before_send",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Soạn bản tin AI hôm nay"},
+        {"role": "user", "content": "Đăng lên kênh Telegram giúp mình"},
+        {"role": "user", "content": "Hỏi xác nhận trước khi gửi thật nhé"}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"what_it_tests": "Hành động gửi/đăng → clarify yes_no, không gọi send trực tiếp."}
+    },
+    {
+      "id": "G10_MT_switch_social_to_web",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Mọi người bàn gì về GPT-5 trên Twitter?"},
+        {"role": "user", "content": "Bỏ Twitter, chuyển sang tin web"},
+        {"role": "user", "content": "Vẫn chủ đề GPT-5, tin hôm nay"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "GPT-5", "topic": "news", "timeframe": "day"}}]},
+      "metadata": {"what_it_tests": "User bỏ social_search, chuyển lookup news day, giữ chủ đề GPT-5."}
+    }
+  ]
 }
