@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const http = axios.create({ baseURL: 'http://localhost:8000' })
+const http = axios.create({ baseURL: '' })
 
 export const getProviders = () => http.get('/providers').then(r => r.data.providers)
 export const listConversations = () => http.get('/conversations').then(r => r.data)

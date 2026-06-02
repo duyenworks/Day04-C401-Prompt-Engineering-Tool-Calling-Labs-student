@@ -176,3 +176,76 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  - name: trending
+    description: >
+      Get trending topics on X/Twitter for a given country.
+
+      Use this when the user asks what is trending, popular, or viral on social media
+      in a specific country or globally.
+
+      Always pass country in English (e.g. "Vietnam", "United States", "worldwide").
+    parameters:
+      type: object
+      properties:
+        country: {type: string, default: "worldwide", description: "Quốc gia hoặc 'worldwide'"}
+        limit: {type: integer, default: 10, description: "Số chủ đề"}
+      required: []
+
+  - name: profile
+    description: >
+      Get public profile information for a Twitter/X account.
+
+      Use this before calling timeline when you need to verify an account exists
+      or show the user bio, follower count, and verification status.
+
+      Pass the screenname without the @ symbol.
+    parameters:
+      type: object
+      properties:
+        screenname: {type: string, default: "", description: "Tên tài khoản (không có @)"}
+      required: [screenname]
+
+  - name: arxiv_related
+    description: >
+      Find related arXiv papers given an arXiv paper ID or URL.
+
+      Use this after papers or paper_text when the user wants to explore
+      similar or follow-up research in the same field.
+
+      Pass the arXiv ID or full URL (e.g. "2401.12345" or "https://arxiv.org/abs/2401.12345").
+    parameters:
+      type: object
+      properties:
+        arxiv_url: {type: string, default: "", description: "arXiv ID hoặc URL"}
+        max_results: {type: integer, default: 5, description: "Số bài"}
+      required: [arxiv_url]
+
+  - name: summarize
+    description: >
+      Extract and rank the most relevant key points from a list of items
+      returned by lookup, fetch, papers, or paper_text.
+
+      Use this when the user asks for a summary, key takeaways, or highlights
+      from multiple sources.
+
+      Pass the items array directly from the previous tool result.
+      Optionally pass focus to score sentences toward a specific angle.
+    parameters:
+      type: object
+      properties:
+        items:
+          type: array
+          default: []
+          description: "Danh sách item từ kết quả công cụ khác"
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              source: {type: string}
+              summary: {type: string}
+        focus: {type: string, default: "", description: "Góc độ tóm tắt (tuỳ chọn)"}
+        max_points: {type: integer, default: 5, description: "Số điểm chính"}
+        style: {type: string, enum: [bullets, numbered], default: "bullets", description: "Định dạng"}
+      required: [items]
