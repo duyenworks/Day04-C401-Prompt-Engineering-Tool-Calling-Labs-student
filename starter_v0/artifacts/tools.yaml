@@ -9,7 +9,17 @@
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Gửi một câu hỏi cho người dùng."
+    description: >
+      Ask the user for missing information.
+
+      Always provide response_type.
+
+      Use response_type=text for free-form information such as:
+      usernames, handles, URLs, topics, keywords, titles, or other missing details.
+
+      Use response_type=yes_no only for confirmation questions.
+
+      Use response_type=choice only when selecting from explicit options.
     parameters:
       type: object
       properties:
@@ -38,7 +48,40 @@ tools:
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet."
+    description: >
+      Search the web.
+
+      Always provide topic.
+
+      For news, always provide timeframe.
+
+      Use topic=news for:
+      news, headlines, current events,
+      "tin tức", "tin mới", "hôm nay",
+      "tuần này", "tháng này", "năm nay".
+
+      Use topic=general for evergreen information.
+
+      Extract only the main subject into query.
+
+      Examples:
+
+      "Tin tức AI hôm nay"
+      -> query="AI", topic="news", timeframe="day"
+
+      "Tin Nvidia tuần này"
+      -> query="Nvidia", topic="news", timeframe="week"
+
+      "Tin OpenAI tháng này"
+      -> query="OpenAI", topic="news", timeframe="month"
+
+      If topic=news:
+        timeframe=day for "hôm nay"
+        timeframe=week for "tuần này"
+        timeframe=month for "tháng này"
+        timeframe=year for "năm nay"
+
+      Do not omit timeframe when topic=news.
     parameters:
       type: object
       properties:
@@ -79,7 +122,24 @@ tools:
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: >
+      Send content to an external destination.
+
+      This tool performs an external write action.
+
+      Never call this tool without explicit user confirmation.
+
+      If the user asks to send, publish, post, upload,
+      share, submit, distribute, email, or post to social media,
+      first call clarify with response_type=yes_no.
+
+      Ask only for confirmation.
+
+      Do not ask for missing content before confirmation.
+
+      Do not call send directly.
+
+      Only call send after the user explicitly confirms.
     parameters:
       type: object
       properties:
