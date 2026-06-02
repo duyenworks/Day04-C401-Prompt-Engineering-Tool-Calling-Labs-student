@@ -263,7 +263,7 @@ function ChatArea({ conv, onSettingsApply }) {
 
       <div className="input-bar">
         <textarea
-          rows={1}
+          rows={3}
           placeholder="Send a message… (Enter to send, Shift+Enter for newline)"
           value={input}
           onChange={e => setInput(e.target.value)}
@@ -283,6 +283,14 @@ export default function App() {
   const [conversations, setConversations] = useState([])
   const [activeId,      setActiveId]      = useState(null)
   const [showModal,     setShowModal]     = useState(false)
+  const [theme,         setTheme]         = useState(() => localStorage.getItem('theme') || 'dark')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
   const activeConv = conversations.find(c => c.id === activeId) || null
 
@@ -325,6 +333,9 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-header">
           <h2>Conversations</h2>
+          <button className="btn-theme" onClick={toggleTheme} title="Toggle theme">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
           <button className="btn-new" onClick={() => setShowModal(true)}>+ New</button>
         </div>
         <div className="conv-list">
