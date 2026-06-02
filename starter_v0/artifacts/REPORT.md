@@ -6,9 +6,16 @@
 
 ## Team
 
-- Team:3
-- Members:3
-- Provider/model:OpenAI/gpt-4o-mini
+- Zone: 8, Team: 3
+- Members: 3
+
+| Họ và tên | Mã học viên |
+| --- | --- |
+| Nguyễn Hoàng Tùng | 2A202600628 |
+| Nguyễn Thị Hiểu | 2A202600545 |
+| Nguyễn Thị Bích Duyên | 2A202600752 |
+
+- Provider/model: OpenAI/gpt-4o-mini
 
 ---
 
@@ -26,27 +33,28 @@ Link dùng thử (deploy): https://font-mods-pod-newspapers.trycloudflare.com/
 > Liệt kê các tool agent đang dùng (gồm tool mới nhóm tự thêm). Mỗi tool 1 dòng: tên + làm được gì.
 
 | Tên tool | Làm được gì | Tool mới nhóm thêm? |
-clarify	|Hỏi lại người dùng khi thiếu thông tin hoặc cần xác nhận|	Không
-timeline|	Lấy các bài đăng gần đây từ một tài khoản mạng xã hội|	Không
-social_search|	Tìm kiếm bài đăng theo từ khóa/chủ đề trên mạng xã hội|	Không
-lookup|	Tìm kiếm thông tin hoặc tin tức trên web	Không
-fetch|	Đọc và lấy nội dung từ một URL cụ thể	Không
-format|	Tổng hợp dữ liệu và trình bày thành digest, báo cáo hoặc bản tóm tắt|	Không
-send|	Gửi nội dung ra hệ thống bên ngoài sau khi được người dùng xác nhận|	Không
-policy|	Tìm kiếm thông tin trong tài liệu/chính sách nội bộ	Không
-papers|	Tìm kiếm bài báo khoa học|	Không
-paper_text|	Lấy nội dung văn bản của một bài báo khoa học|	Không
-trending|	Lấy các chủ đề đang thịnh hành trên X/Twitter theo quốc gia hoặc toàn cầu|	Có
-profile|	Lấy thông tin hồ sơ công khai của tài khoản X/Twitter (bio, follower, trạng thái xác minh...)|	Có
-arxiv_related|	Tìm các bài báo arXiv liên quan đến một bài báo đã biết|	Có
-summarize|	Rút trích và xếp hạng các ý chính từ nhiều nguồn dữ liệu, tạo key takeaways|	Có
+| --- | --- | --- |
+| clarify | Hỏi lại người dùng khi thiếu thông tin hoặc cần xác nhận | Không |
+| timeline | Lấy các bài đăng gần đây từ một tài khoản mạng xã hội | Không |
+| social_search | Tìm kiếm bài đăng theo từ khóa/chủ đề trên mạng xã hội | Không |
+| lookup | Tìm kiếm thông tin hoặc tin tức trên web | Không |
+| fetch | Đọc và lấy nội dung từ một URL cụ thể | Không |
+| format | Tổng hợp dữ liệu và trình bày thành digest, báo cáo hoặc bản tóm tắt | Không |
+| send | Gửi nội dung ra hệ thống bên ngoài sau khi được người dùng xác nhận | Không |
+| policy | Tìm kiếm thông tin trong tài liệu/chính sách nội bộ | Không |
+| papers | Tìm kiếm bài báo khoa học | Không |
+| paper_text | Lấy nội dung văn bản của một bài báo khoa học | Không |
+| trending | Lấy các chủ đề đang thịnh hành trên X/Twitter theo quốc gia hoặc toàn cầu | Có |
+| profile | Lấy thông tin hồ sơ công khai của tài khoản X/Twitter (bio, follower, trạng thái xác minh...) | Có |
+| arxiv_related | Tìm các bài báo arXiv liên quan đến một bài báo đã biết | Có |
+| summarize | Rút trích và xếp hạng các ý chính từ nhiều nguồn dữ liệu, tạo key takeaways | Có |
 
 
 ## A3. Câu hỏi mẫu để thử
 
 1. Tin tức về AI tuần này là gì? Hãy tổng hợp 5 tin nổi bật nhất thành một bản digest ngắn.
 2. Tìm các bài đăng mới nhất của tài khoản @OpenAI trên X/Twitter và tóm tắt nội dung chính.
-3. Những chủ đề nào đang trending trên X/Twitter tại Vietnam hôm nay?
+3. Những chủ đề nào đang trending trên X/Twitter tại Việt Nam hôm nay?
 4. Tìm 5 bài báo khoa học mới về AI Agents trên arXiv và tóm tắt điểm nổi bật của từng bài.
 5. Đọc nội dung URL https://example.com và tạo báo cáo tóm tắt theo các mục: nội dung chính, kết luận và các điểm đáng chú ý.
 
@@ -56,12 +64,13 @@ summarize|	Rút trích và xếp hạng các ý chính từ nhiều nguồn dữ
 
 ## B1. Version Evidence
 
-| Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File                                             |
-| v0      | baseline                      | Đo hiệu năng ban đầu của agent trước khi tối ưu prompt và tool routing                                             |             – |         0.70 | runs/v0_B_base_openrouter_20260602T125722349095.json |
-| v1      | system_prompt.md              | Bổ sung quy tắc routing, timeframe cho news, multi-turn và boundary của send tool sẽ giảm lỗi chọn tool và tham số |          0.70 |         0.90 | runs/v2_B_base_openrouter_20260602T144851505914.json |
-| v2      | system_prompt.md              | Tăng cường quy tắc argument normalization và xử lý xác nhận trước external write để giảm lỗi còn lại               |          0.90 |         0.95 | runs/v3_B_base_openrouter_20260602T145901200269.json |
-| v3      | tools.yaml                    | Bổ sung và làm rõ mô tả tool (trending, profile, arxiv_related, summarize), giúp agent định tuyến chính xác hơn    |          0.95 |         1.00 | runs/v7_B_base_openrouter_20260602T151829881317.json |
-| v4      | system_prompt.md + tools.yaml | Hoàn thiện prompt và tool descriptions để đạt độ chính xác tối đa trên toàn bộ bộ đánh giá                         |          1.00 |         1.00 | runs/v8_B_base_openrouter_20260602T152633419121.json |
+| Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File |
+| --- | --- | --- | --- | --- | --- |
+| v0 | baseline | Đo hiệu năng ban đầu của agent trước khi tối ưu prompt và tool routing | – | 0.70 | runs/v0_B_base_openrouter_20260602T125722349095.json |
+| v1 | system_prompt.md | Bổ sung quy tắc routing, timeframe cho news, multi-turn và boundary của send tool sẽ giảm lỗi chọn tool và tham số | 0.70 | 0.90 | runs/v2_B_base_openrouter_20260602T144851505914.json |
+| v2 | system_prompt.md | Tăng cường quy tắc argument normalization và xử lý xác nhận trước external write để giảm lỗi còn lại | 0.90 | 0.95 | runs/v3_B_base_openrouter_20260602T145901200269.json |
+| v3 | tools.yaml | Bổ sung và làm rõ mô tả tool (trending, profile, arxiv_related, summarize), giúp agent định tuyến chính xác hơn | 0.95 | 1.00 | runs/v7_B_base_openrouter_20260602T151829881317.json |
+| v4 | system_prompt.md + tools.yaml | Hoàn thiện prompt và tool descriptions để đạt độ chính xác tối đa trên toàn bộ bộ đánh giá | 1.00 | 1.00 | runs/v8_B_base_openrouter_20260602T152633419121.json |
 
 
 
@@ -69,13 +78,13 @@ summarize|	Rút trích và xếp hạng các ý chính từ nhiều nguồn dữ
 
 Use actual failures from `results[*].result.failures`.
 
-| Case ID              | Failure Type    | Actual Tool Calls                                 | What Failed                                                                                                             | Fix                                                                                |
-
-| Rxx (news query)     | wrong_arg_value | `lookup(query="AI", topic="news")`                | Thiếu hoặc chọn sai `timeframe` cho truy vấn tin tức hôm nay, dẫn đến sai argument.                                     | Thêm rule: từ khóa "hôm nay", "today" ⇒ `timeframe="day"`.                         |
-| Rxx (multiturn send) | wrong_boundary  | `send(...)` hoặc hành động ngoài phạm vi xác nhận | Agent thực hiện hành động gửi khi chưa hoàn tất bước xác nhận người dùng. Đây là lỗi boundary duy nhất ở run đạt 0.95.  | Bắt buộc yêu cầu xác nhận (`clarify`) trước mọi external write/send.               |
-| Rxx (routing)        | wrong_tool      | Gọi tool khác thay vì tool mong đợi               | Một số truy vấn bị định tuyến sang tool không đúng, làm giảm tool routing accuracy xuống 0.95.                          | Bổ sung luật routing rõ ràng giữa `timeline`, `social_search`, `lookup`, `papers`. |
-| Rxx (missing info)   | missing_info    | Không gọi `clarify`                               | Agent không hỏi lại khi thiếu tham số bắt buộc nên không tạo đúng tool call.                                            | Thêm quy tắc: thiếu URL, username, paper id... ⇒ gọi `clarify` trước.              |
-| Rxx (extra call)     | extra_tool_call | Gọi thêm một tool không cần thiết                 | Agent thực hiện thêm tool call ngoài yêu cầu của testcase.                                                              | Giới hạn chỉ gọi tool tối thiểu cần thiết để hoàn thành yêu cầu.                   |
+| Case ID | Failure Type | Actual Tool Calls | What Failed | Fix |
+| --- | --- | --- | --- | --- |
+| Rxx (news query) | wrong_arg_value | `lookup(query="AI", topic="news")` | Thiếu hoặc chọn sai `timeframe` cho truy vấn tin tức hôm nay, dẫn đến sai argument. | Thêm rule: từ khóa "hôm nay", "today" ⇒ `timeframe="day"`. |
+| Rxx (multiturn send) | wrong_boundary | `send(...)` hoặc hành động ngoài phạm vi xác nhận | Agent thực hiện hành động gửi khi chưa hoàn tất bước xác nhận người dùng. Đây là lỗi boundary duy nhất ở run đạt 0.95. | Bắt buộc yêu cầu xác nhận (`clarify`) trước mọi external write/send. |
+| Rxx (routing) | wrong_tool | Gọi tool khác thay vì tool mong đợi | Một số truy vấn bị định tuyến sang tool không đúng, làm giảm tool routing accuracy xuống 0.95. | Bổ sung luật routing rõ ràng giữa `timeline`, `social_search`, `lookup`, `papers`. |
+| Rxx (missing info) | missing_info | Không gọi `clarify` | Agent không hỏi lại khi thiếu tham số bắt buộc nên không tạo đúng tool call. | Thêm quy tắc: thiếu URL, username, paper id... ⇒ gọi `clarify` trước. |
+| Rxx (extra call) | extra_tool_call | Gọi thêm một tool không cần thiết | Agent thực hiện thêm tool call ngoài yêu cầu của testcase. | Giới hạn chỉ gọi tool tối thiểu cần thiết để hoàn thành yêu cầu. |
 
 
 ## B3. Team Eval Cases
@@ -98,11 +107,11 @@ List the 10 cases added to `data/eval_group.json` (5 single turn + 5 multi turn)
 
 ## B4. Live Chat Evidence
 
-| Turn | User Request                         | Tool Calls                                                                          | Version Evidence                                                                                  | Outcome                                        |
-
-| 1    | Tin AI hôm nay có gì nổi bật?        | `lookup(query="AI", topic="news", timeframe="day", max_results=3)`                  | Agent nhận diện đây là truy vấn tin tức, tự động đặt `topic=news` và `timeframe=day`              | Trả về các tin AI nổi bật trong ngày           |
-| 2    | Tóm tắt vài tweet mới nhất giúp mình | `clarify(question="Bạn muốn lấy bài đăng từ tài khoản nào?", response_type="text")` | Agent phát hiện thiếu thông tin bắt buộc (tài khoản nguồn) nên hỏi lại thay vì gọi tool ngay      | Chờ người dùng cung cấp tài khoản              |
-| 3    | Của Andrej Karpathy nhé, lấy 5 bài   | `timeline(screenname="karpathy", limit=5)`                                          | Agent ghi nhớ ngữ cảnh từ lượt trước, map yêu cầu thành timeline với đúng account và số lượng bài | Trả về 5 bài đăng gần nhất của Andrej Karpathy |
+| Turn | User Request | Tool Calls | Version Evidence | Outcome |
+| --- | --- | --- | --- | --- |
+| 1 | Tin AI hôm nay có gì nổi bật? | `lookup(query="AI", topic="news", timeframe="day", max_results=3)` | Agent nhận diện đây là truy vấn tin tức, tự động đặt `topic=news` và `timeframe=day` | Trả về các tin AI nổi bật trong ngày |
+| 2 | Tóm tắt vài tweet mới nhất giúp mình | `clarify(question="Bạn muốn lấy bài đăng từ tài khoản nào?", response_type="text")` | Agent phát hiện thiếu thông tin bắt buộc (tài khoản nguồn) nên hỏi lại thay vì gọi tool ngay | Chờ người dùng cung cấp tài khoản |
+| 3 | Của Andrej Karpathy nhé, lấy 5 bài | `timeline(screenname="karpathy", limit=5)` | Agent ghi nhớ ngữ cảnh từ lượt trước, map yêu cầu thành timeline với đúng account và số lượng bài | Trả về 5 bài đăng gần nhất của Andrej Karpathy |
 
 
 ## B5. Bonus Evidence
