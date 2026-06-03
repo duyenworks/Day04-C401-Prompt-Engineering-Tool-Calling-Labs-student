@@ -497,6 +497,102 @@ body {
 [data-theme="light"] .status-max_tool_rounds  { background: #fef9c3; color: #92400e; }
 [data-theme="light"] .status-provider_error   { background: #fee2e2; color: #b91c1c; }
 
+/* ── Tool steps panel ───────────────────────────── */
+.tool-steps {
+  align-self: flex-start;
+  max-width: 760px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.tool-steps-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.tool-steps-toggle:hover {
+  background: var(--bg-item-hover);
+  color: var(--text-primary);
+}
+
+.tool-steps-icon { font-size: 10px; }
+
+.tool-steps-body {
+  margin-top: 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.tool-step-round { border-bottom: 1px solid var(--border); }
+.tool-step-round:last-child { border-bottom: none; }
+
+.tool-step-round-label {
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-bar);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tool-step-call {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.tool-step-call:last-child { border-bottom: none; }
+
+.tool-step-header {
+  margin-bottom: 6px;
+}
+
+.tool-step-name {
+  font-weight: 600;
+  color: var(--text-tool);
+  font-size: 12px;
+}
+
+.tool-step-args,
+.tool-step-result {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.tool-step-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.tool-step-args pre,
+.tool-step-result pre {
+  margin: 0;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 11px;
+  overflow-x: auto;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.tool-step-result pre { opacity: 0.75; }
+
 /* ── Scrollbar ───────────────────────────────────── */
 .messages::-webkit-scrollbar { width: 6px; }
 .messages::-webkit-scrollbar-track { background: transparent; }

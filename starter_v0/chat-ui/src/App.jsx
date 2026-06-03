@@ -151,28 +151,72 @@ function SettingsBar({ conv, onApply }) {
   )
 }
 
-// ── Message bubble ────────────────────────────────────────────────────────────
-function Message({ msg }) {
-  const toolNames = (msg.tool_events || []).map(e => e.tool)
+// ── Tool steps panel ─────────────────────────────────────────────────────────
+function ToolSteps({ rounds }) {
+  const [open, setOpen] = useState(false)
+  if (!rounds || rounds.length === 0) return null
+
+  const totalCalls = rounds.reduce((n, r) => n + (r.tool_calls?.length || 0), 0)
+  if (totalCalls === 0) return null
 
   return (
+    <div className="tool-steps">
+      <button className="tool-steps-toggle" onClick={() => setOpen(o => !o)}>
+        <span className="tool-steps-icon">{open ? '▾' : '▸'}</span>
+        {totalCalls} tool call{totalCalls !== 1 ? 's' : ''}
+        {rounds.length > 1 ? ` across ${rounds.length} rounds` : ''}
+      </button>
+
+      {open && (
+        <div className="tool-steps-body">
+          {rounds.map((round, ri) => (
+            <div key={ri} className="tool-step-round">
+              {rounds.length > 1 && (
+                <div className="tool-step-round-label">Round {round.round}</div>
+              )}
+              {(round.tool_calls || []).map((call, ci) => {
+                const result = round.tool_results?.[ci]?.result
+                return (
+                  <div key={ci} className="tool-step-call">
+                    <div className="tool-step-header">
+                      <span className="tool-step-name">🔧 {call.name}</span>
+                    </div>
+                    <div className="tool-step-args">
+                      <span className="tool-step-label">args</span>
+                      <pre>{JSON.stringify(call.args, null, 2)}</pre>
+                    </div>
+                    {result !== undefined && (
+                      <div className="tool-step-result">
+                        <span className="tool-step-label">result</span>
+                        <pre>{JSON.stringify(result, null, 2).slice(0, 600)}{JSON.stringify(result, null, 2).length > 600 ? '\n…' : ''}</pre>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Message bubble ────────────────────────────────────────────────────────────
+function Message({ msg }) {
+  return (
     <div className={`msg ${msg.role}`}>
+      {msg.rounds?.length > 0 && <ToolSteps rounds={msg.rounds} />}
+
       <div className="msg-bubble">
         {msg.role === 'assistant'
           ? <ReactMarkdown>{msg.content}</ReactMarkdown>
           : msg.content}
       </div>
 
-      {toolNames.length > 0 && (
-        <div className="tool-pills">
-          {toolNames.map((name, i) => <span key={i} className="tool-pill">🔧 {name}</span>)}
-        </div>
-      )}
-
       {msg.status && (
         <div className="msg-meta">
           <span className={`status-badge status-${msg.status}`}>{msg.status}</span>
-          {msg.rounds?.length > 0 && ` · ${msg.rounds.length} round${msg.rounds.length > 1 ? 's' : ''}`}
         </div>
       )}
     </div>
